@@ -53,8 +53,8 @@ DATABASE_URL="postgres://postgres.nfihczlzhibkngrckgdm:6PXby4XCQ6rrdF46
 NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME="das3bvpfg"
 
 STRIPE_API_KEY=sk_test_51P2STmGcHyimaPcvJilw6Boku0tD0Truo0UnEspr2AM2gC2cvAl2MsIQV189quNdlHPHY9GJ66l7ggTFNfMmbC3w00KRjNsnSP
-FRONTEND_STORE_URL=http://localhost:3001
-STRIPE_WEBHOOK_SECRET=whsec_a41343364c0efaf18089b89dfc886a5c1ec3c68fa890055574cc28e5da73d97a
+FRONTEND_STORE_URL=https://suits-to-go-store.vercel.app/
+STRIPE_WEBHOOK_SECRET=whsec_EUKpyQQ53b3Jm6zcncvR1SRuRloa8JQR
 ```
 
 **Nota:** Las variables de entorno deben comenzar con `NEXT_PUBLIC_` para que estén disponibles en el cliente.
