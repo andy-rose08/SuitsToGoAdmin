@@ -1,0 +1,202 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+
+model Province {
+  province_id String   @id
+  name        String
+  cantons     Canton[]  // Define the relationship with cantons
+  locations   Location[]// Define the opposite relation with locations
+}
+
+model Canton {
+  canton_id   String   @id
+  name        String
+  province_id String
+  province    Province @relation(fields: [province_id], references: [province_id])
+  districts   District[] // Define the relationship with districts
+  locations   Location[] // Define the relationship with locations
+  @@index([province_id])
+}
+
+model District {
+  district_id String   @id
+  name        String
+  canton_id   String
+  canton      Canton   @relation(fields: [canton_id], references: [canton_id])
+  locations   Location[] // Define the relationship with locations
+  @@index([canton_id])
+
+}
+
+
+model Location {
+  location_id String   @id @default(uuid())
+  address     String
+  province_id String
+  canton_id   String
+  district_id String
+  province    Province @relation(fields: [province_id], references: [province_id])
+  canton      Canton   @relation(fields: [canton_id], references: [canton_id])
+  district    District @relation(fields: [district_id], references: [district_id])
+  stores      Store[]  // Define the relationship with stores
+
+  @@index([province_id])
+  @@index([canton_id])
+  @@index([district_id])
+
+
+
+  
+}
+
+
+model Store {
+  store_id   String    @id @default(uuid())
+  store_name String
+  userId     String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  locations  Location[] // Define the relationship with locations
+  categories Category[] // Define the relationship with categories
+  billboards Billboard[] @relation("StoreToBillboard") // Define the relationship with billboards
+  sizes      Size[] @relation("StoreToSize") // Define the relationship with sizes
+  color      Color[] @relation("StoreToColor") // Define the relationship with colors
+  products   Product[] @relation("StoreToProduct") // Define the relationship with products
+  orders     Order[] @relation("StoreToOrder") // Define the relationship with orders
+  
+}
+
+
+model Billboard{
+  id         String    @id @default(uuid())
+  store_id   String
+  store      Store     @relation("StoreToBillboard",fields: [store_id], references: [store_id])// Define the relationship with stores, la cual pertenece a un store especifico
+  label       String
+  imageUrl    String
+  categories  Category[] 
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  @@index([store_id])
+
+}
+
+model Category{
+  category_id        String    @id @default(uuid())
+  name               String
+  store_id           String
+  store              Store     @relation(fields: [store_id], references: [store_id])
+  billboard_id       String
+  billboard         Billboard @relation(fields: [billboard_id], references: [id])
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  products         Product[] @relation("CategoryToProduct")
+
+  @@index([billboard_id])
+  @@index([store_id])
+}
+
+model Size{
+  size_id        String    @id @default(uuid())
+  store_id       String
+  store          Store     @relation("StoreToSize",fields: [store_id], references: [store_id])
+  name           String
+  value          String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  @@index([store_id])
+
+  products       Product[] 
+}
+
+model Color{
+  color_id        String    @id @default(uuid())
+  store_id       String
+  store          Store     @relation("StoreToColor",fields: [store_id], references: [store_id])
+  name           String
+  value          String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  @@index([store_id])
+
+  products       Product[]
+}
+
+model Product{
+  product_id        String    @id @default(uuid())
+  store_id          String
+  store             Store     @relation("StoreToProduct",fields: [store_id], references: [store_id])
+  category_id       String
+  category          Category  @relation("CategoryToProduct",fields: [category_id], references: [category_id])
+  name              String
+  price             Float
+  isFeatured        Boolean  @default(false)
+  isArchived        Boolean  @default(false)
+  size_id           String
+  size              Size     @relation(fields: [size_id], references: [size_id])
+  color_id          String
+  color             Color    @relation(fields: [color_id], references: [color_id])
+  images            Image[]
+
+  orderItems        OrderItem[]
+
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([store_id])
+  @@index([category_id])
+  @@index([size_id])
+  @@index([color_id])
+}
+
+model Image{
+  image_id       String    @id @default(uuid())
+  product_id     String
+  product        Product   @relation(fields: [product_id], references: [product_id], onDelete: Cascade)
+  url           String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([product_id])
+}
+
+
+model Order{
+  order_id          String    @id @default(uuid())
+  store_id    String
+  store       Store     @relation("StoreToOrder",fields: [store_id], references: [store_id])
+  orderItems  OrderItem[]
+  isPaid      Boolean  @default(false)
+  phone       String   @default("")
+  address     String   @default("")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([store_id])
+}
+
+
+model OrderItem{ //many to many, intermediate table
+  id          String    @id @default(uuid())
+  order_id    String
+  order       Order     @relation(fields: [order_id], references: [order_id])
+  product_id  String
+  product     Product   @relation(fields: [product_id], references: [product_id])
+
+  @@index([order_id])
+  @@index([product_id])
+}
