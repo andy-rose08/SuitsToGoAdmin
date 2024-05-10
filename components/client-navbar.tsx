@@ -17,6 +17,11 @@ export const ClientNavbar = ({ stores }: any) => {
     setTimeout(() => setIsDisabled(false), 300); // Ajusta este valor según la duración de la animación
   };
 
+
+  const handleLinkClick = () => {
+    setIsOpen(false);
+  }
+
   // Cierra el menú cuando la pantalla es grande
   useEffect(() => {
     const handleResize = () => {
@@ -24,6 +29,8 @@ export const ClientNavbar = ({ stores }: any) => {
         setIsOpen(false);
       }
     };
+
+    
 
     window.addEventListener("resize", handleResize);
 
@@ -51,6 +58,19 @@ export const ClientNavbar = ({ stores }: any) => {
       >
         {isOpen ? <X /> : <Menu />}
       </button>
+      {isOpen && (
+        <div className="fixed top-0 left-0 h-full w-full bg-black bg-opacity-50 z-50">
+          <div className="h-full w-64 bg-[#252440] dark:bg-[#0d1a26] p-4">
+          <button
+              className="absolute top-4 right-4 text-[#FFD700] dark:text-[#252440] hover:text-gray-300 dark:hover:text-gray-800"
+              onClick={handleClick}
+            >
+              <X />
+            </button>
+            <MainNav isOpen={isOpen} onClick={handleLinkClick}/>
+          </div>
+        </div>
+      )}
       <MainNav
         isOpen={isOpen}
         className={`${

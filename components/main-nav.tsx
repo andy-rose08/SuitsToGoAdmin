@@ -60,7 +60,7 @@ export function MainNav({
       className={cn(
         "flex flex-col sm:flex-row items-start sm:items-center justify-center space-y-2 sm:space-y-0 sm:space-x-6 overflow-auto max-h-screen",
         className,
-        isOpen ? "block" : "hidden"
+        isOpen ? "flex" : "hidden"
       )}
     >
       {routes.map((route) => (
