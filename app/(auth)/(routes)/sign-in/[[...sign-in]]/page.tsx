@@ -16,10 +16,13 @@ export default function Page() {
             formFieldInput:
               "border-2 border-[#252440] dark:border-white focus:border-[#FFD700] dark:focus:border-[#FFD700] focus:outline-none text-[#252440] dark:text-white",
             formFieldLabel: "text-[#252440] dark:text-white",
+            formHeaderTitle:"text-[#252440] dark:text-white",
+            formHeaderSubtitle:"text-[#252440] dark:text-white",
             dividerRow: "text-[#252440] dark:text-white",
             dividerText: "text-[#252440] dark:text-white",
             dividerLine: "bg-[#FFD700] dark:bg-white",
             headerTitle: "text-[#252440] dark:text-white",
+            identityPreviewText:"text-[#252440] dark:text-white",
             socialButtonsBlockButton:
               "border-2 border-[#252440] dark:border-white hover:border-[#FFD700] dark:hover:border-[#FFD700] transition duration-300 ease-in-out",
             socialButtonsBlockButtonText: "text-[#252440] dark:text-white",

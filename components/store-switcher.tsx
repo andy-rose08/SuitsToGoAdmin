@@ -95,7 +95,9 @@ export default function StoreSwitcher({
                 <Button
                   key={store.value}
                   onClick={() => onStoreSelect(store)}
-                  className="text-sm text-white flex items-center justify-between w-full px-3 py-2 cursor-pointer focus:outline-none"
+                  className="text-sm text-white flex items-center justify-between w-full px-3 py-2 cursor-pointer focus:outline-none
+                  dark:text-[#252440]
+                  "
                 >
                   <StoreIcon className="mr-2 h-4 w-4" />
                   {store.label}
@@ -120,7 +122,9 @@ export default function StoreSwitcher({
                   setOpen(false);
                   storeModal.onOpen();
                 }}
-                className="relative flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground hover:bg-[#3D3D5C] dark:hover:bg-[#1A2B3A] data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                className="relative flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground hover:bg-[#3D3D5C] dark:hover:bg-[#1A2B3A] data-[disabled]:pointer-events-none data-[disabled]:opacity-50
+                hover:dark:text-white
+                "
               >
                 <PlusCircle className="mr-2 h-5 w-5" />
                 Create Store
