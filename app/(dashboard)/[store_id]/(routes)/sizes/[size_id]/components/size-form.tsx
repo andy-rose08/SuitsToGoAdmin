@@ -25,15 +25,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { AlertModal } from "@/components/modals/alert-modal";
 
-
-
 interface SizeFormProps {
   initialData: Size | null;
 }
 
 const formSchema = z.object({
-  name: z.string().nonempty("Name is required"),
-  value: z.string().nonempty("Value is required"),
+  name: z.string().nonempty("Nombre es requerido"),
+  value: z.string().nonempty("Valor es requerido"),
 });
 
 type SizeFormValues = z.infer<typeof formSchema>;
@@ -44,10 +42,10 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const title = initialData ? "Edit Size" : "Create Size";
-  const description = initialData ? "Edit Size" : "Add a new Size";
-  const toastMessage = initialData ? "Size updated" : "Size created";
-  const action = initialData ? "Save Changes" : "Create";
+  const title = initialData ? "Editar Talla" : "Agregar Talla";
+  const description = initialData ? "Editar Talla" : "Agregar una nueva Talla";
+  const toastMessage = initialData ? "Talla actualizada" : "Talla creada";
+  const action = initialData ? "Guardar Cambios" : "Agregar";
 
   const form = useForm<SizeFormValues>({
     resolver: zodResolver(formSchema),
@@ -75,7 +73,7 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
       router.push(`/${params.store_id}/sizes`);
       toast.success(toastMessage);
     } catch (e) {
-      toast.error("Something went wrong, try again!");
+      toast.error("Algo salió mal, intenta nuevamente!");
     } finally {
       setLoading(false);
     }
@@ -88,10 +86,10 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
       router.refresh();
       router.push(`/${params.store_id}/sizes`);
       router.refresh();
-      toast.success("Size deleted");
+      toast.success("Talla eliminada");
     } catch (error) {
       toast.error(
-        "Something went wrong, make sure you removed all products using this size first!"
+        "Algo salió mal. Asegúrate de eliminar primero todos los productos que usan este tamaño!"
       );
     } finally {
       setLoading(false);
@@ -109,14 +107,16 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
       <div className="flex flex-col md:flex-row items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
-          <Button
-            disabled={loading}
-            variant="destructive"
-            size="icon"
-            onClick={() => setOpen(true)}
-          >
-            <Trash className="h-4 w-4" />
-          </Button>
+          <div className="mt-4">
+            <Button
+              disabled={loading}
+              variant="destructive"
+              size="icon"
+              onClick={() => setOpen(true)}
+            >
+              <Trash className="h-4 w-4" />
+            </Button>
+          </div>
         )}
       </div>
       <Separator />
@@ -133,7 +133,7 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-[#252440] dark:text-white">
-                    Name
+                    Nombre
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -142,7 +142,7 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
                       placeholder-gray-500
                       "
                       disabled={loading}
-                      placeholder="Size Name"
+                      placeholder="Nombre de la talla"
                       {...field}
                     />
                   </FormControl>
@@ -156,7 +156,7 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-[#252440] dark:text-white">
-                    Value
+                    Valor
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -165,7 +165,7 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
                       placeholder-gray-500
                       "
                       disabled={loading}
-                      placeholder="Value"
+                      placeholder="Valor"
                       {...field}
                     />
                   </FormControl>
