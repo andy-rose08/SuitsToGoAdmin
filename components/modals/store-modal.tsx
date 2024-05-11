@@ -36,13 +36,13 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
 const formSchema = z.object({
-  store_name: z.string().nonempty("Store name is required"),
+  store_name: z.string().nonempty("Nombre de la tienda es requerido"),
   address: z
     .string()
-    .refine((value) => value.trim() !== "", "Address is required!"),
-  province_id: z.string().nonempty("Province is required"),
-  canton_id: z.string().nonempty("Canton is required"),
-  district_id: z.string().nonempty("District is required"),
+    .refine((value) => value.trim() !== "", "Dirección es requerida!"),
+  province_id: z.string().nonempty("Provincia es requerida"),
+  canton_id: z.string().nonempty("Cantón es requerido"),
+  district_id: z.string().nonempty("Distrito es requerido"),
 });
 
 //METODOS PARA EL JSX
@@ -144,7 +144,7 @@ export const StoreModal = () => {
       window.location.assign(`/${response.data.store_id}`); //refresca la pagina
       //100% se carga en la db, mas que nada para una mejor UX
     } catch (error) {
-      toast.error("Something went wrong! Please try again.");
+      toast.error("Algo salió mal! Por favor, intente nuevamente");
     } finally {
       setLoading(false);
     }
@@ -234,8 +234,8 @@ export const StoreModal = () => {
 
   return (
     <Modal
-      title="Add a new Store"
-      description="Add a new store for manage products and categories"
+      title="Agregar una nueva tienda"
+      description="Agregar una nueva tienda para gestionar productos y categorías"
       isOpen={storeModal.isOpen}
       onClose={storeModal.onClose}
     >
@@ -248,7 +248,7 @@ export const StoreModal = () => {
                 name="store_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Store Name</FormLabel>
+                    <FormLabel>Nombre de la tienda</FormLabel>
                     <FormControl>
                       {/*manejo de errores */}
                       <Input
@@ -257,7 +257,7 @@ export const StoreModal = () => {
                         dark:bg-[#0D1A26]
                         dark:text-white
                         border-2 text-[#252440] placeholder-gray-500"
-                        placeholder="Store Name"
+                        placeholder="Nombre de la tienda"
                         {...field}
                       />
                     </FormControl>
@@ -271,7 +271,7 @@ export const StoreModal = () => {
                 name="address"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Store Address</FormLabel>
+                    <FormLabel>Dirección de la tienda</FormLabel>
                     <FormControl>
                       <Textarea
                         disabled={loading || isLoading}
@@ -283,7 +283,7 @@ export const StoreModal = () => {
                         dark:bg-[#0D1A26]
                         dark:text-white
                         bg-white border-2 text-[#252440] placeholder-gray-500"
-                        placeholder="Store Address"
+                        placeholder="Dirección de la tienda"
                       />
                     </FormControl>
                     <FormMessage />
@@ -296,7 +296,7 @@ export const StoreModal = () => {
                 name="province_id"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Province</FormLabel>
+                    <FormLabel>Provincia</FormLabel>
                     <Select
                       disabled={loading || isLoading}
                       onValueChange={handleProvinceChange(form, field.name)}
@@ -306,7 +306,7 @@ export const StoreModal = () => {
                           className="placeholder-gray-500 dark:text-white
                       text-[#252440] border border-[#252440] dark:border-white dark:bg-[#0D1A26]"
                         >
-                          <SelectValue placeholder="Select a province" />
+                          <SelectValue placeholder="Seleccione una provincia" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent className="dark:bg-[#0D1A26] dark:border-white dark:text-white">
@@ -335,7 +335,7 @@ export const StoreModal = () => {
                   name="canton_id"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Canton</FormLabel>
+                      <FormLabel>Cantón</FormLabel>
                       <Select
                         disabled={loading || isLoading}
                         onValueChange={handleCantonChange(form, field.name)}
@@ -345,7 +345,7 @@ export const StoreModal = () => {
                             className="placeholder-gray-500 dark:text-white
                       text-[#252440] border border-[#252440] dark:border-white dark:bg-[#0D1A26]"
                           >
-                            <SelectValue placeholder="Select a canton" />
+                            <SelectValue placeholder="Seleccione un cantón" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent className="dark:bg-[#0D1A26] dark:border-white dark:text-white">
@@ -375,7 +375,7 @@ export const StoreModal = () => {
                   name="district_id"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>District</FormLabel>
+                      <FormLabel>Distrito</FormLabel>
                       <Select
                         disabled={loading || isLoading}
                         onValueChange={(value) =>
@@ -387,7 +387,7 @@ export const StoreModal = () => {
                             className="placeholder-gray-500 dark:text-white
                       text-[#252440] border border-[#252440] dark:border-white dark:bg-[#0D1A26]"
                           >
-                            <SelectValue placeholder="Select a district" />
+                            <SelectValue placeholder="Seleccione un distrito" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent className="dark:bg-[#0D1A26] dark:border-white dark:text-white">
@@ -418,14 +418,14 @@ export const StoreModal = () => {
                   variant="outline"
                   onClick={storeModal.onClose}
                 >
-                  Cancel
+                  Cancelar
                 </Button>
                 <Button
                   disabled={loading || isLoading}
                   className="border-2 text-[#252440] bg-[#FFD700] hover:bg-[#ADD8E6] border-[#252440] hover:border-[#FFD700] transition duration-300 ease-in-out hover:text-[#FFFFFF]"
                   type="submit"
                 >
-                  Continue
+                  Continuar
                 </Button>
               </div>
             </form>

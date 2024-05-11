@@ -30,9 +30,9 @@ interface ColorFormProps {
 }
 
 const formSchema = z.object({
-  name: z.string().nonempty("Name is required"),
+  name: z.string().nonempty("Nombre es requerido"),
   value: z.string().min(4).regex(/^#/, {
-    message: "Value must be a valid hex color",
+    message: "El valor debe ser un color hexadecimal válido",
   }),
 });
 
@@ -44,10 +44,10 @@ export const ColorForm: React.FC<ColorFormProps> = ({ initialData }) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const title = initialData ? "Edit Color" : "Create Color";
-  const description = initialData ? "Edit Color" : "Add a new Color";
-  const toastMessage = initialData ? "Color updated" : "Color created";
-  const action = initialData ? "Save Changes" : "Create";
+  const title = initialData ? "Editar Color" : "Agregar Color";
+  const description = initialData ? "Editar Color" : "Agregar un nuevo Color";
+  const toastMessage = initialData ? "Color actualizado" : "Color creado";
+  const action = initialData ? "Guardar cambios" : "Agregar";
 
   const form = useForm<ColorFormValues>({
     resolver: zodResolver(formSchema),
@@ -75,7 +75,7 @@ export const ColorForm: React.FC<ColorFormProps> = ({ initialData }) => {
       router.push(`/${params.store_id}/colors`);
       toast.success(toastMessage);
     } catch (e) {
-      toast.error("Something went wrong, try again!");
+      toast.error("Algo salió mal, intente nuevamente!");
     } finally {
       setLoading(false);
     }
@@ -88,10 +88,10 @@ export const ColorForm: React.FC<ColorFormProps> = ({ initialData }) => {
       router.refresh();
       router.push(`/${params.store_id}/colors`);
       router.refresh();
-      toast.success("Color deleted");
+      toast.success("Color eliminado");
     } catch (error) {
       toast.error(
-        "Something went wrong, make sure you removed all products using this color first!"
+        "Algo salió mal. Aségurate de eliminar primero todos los productos que usan este color!"
       );
     } finally {
       setLoading(false);
@@ -109,14 +109,16 @@ export const ColorForm: React.FC<ColorFormProps> = ({ initialData }) => {
       <div className="flex flex-col md:flex-row items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
-          <Button
-            disabled={loading}
-            variant="destructive"
-            size="icon"
-            onClick={() => setOpen(true)}
-          >
-            <Trash className="h-4 w-4" />
-          </Button>
+          <div className="mt-4">
+            <Button
+              disabled={loading}
+              variant="destructive"
+              size="icon"
+              onClick={() => setOpen(true)}
+            >
+              <Trash className="h-4 w-4" />
+            </Button>
+          </div>
         )}
       </div>
       <Separator />
@@ -133,7 +135,7 @@ export const ColorForm: React.FC<ColorFormProps> = ({ initialData }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-[#252440] dark:text-white">
-                    Name
+                    Nombre
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -142,7 +144,7 @@ export const ColorForm: React.FC<ColorFormProps> = ({ initialData }) => {
                       placeholder-gray-500
                       "
                       disabled={loading}
-                      placeholder="Color Name"
+                      placeholder="Nombre del color"
                       {...field}
                     />
                   </FormControl>
@@ -156,7 +158,7 @@ export const ColorForm: React.FC<ColorFormProps> = ({ initialData }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-[#252440] dark:text-white">
-                    Value
+                    Valor
                   </FormLabel>
                   <FormControl>
                     <div className="flex items-center gap-x-4">
@@ -166,7 +168,7 @@ export const ColorForm: React.FC<ColorFormProps> = ({ initialData }) => {
                       placeholder-gray-500
                       "
                         disabled={loading}
-                        placeholder="Value"
+                        placeholder="Valor"
                         {...field}
                       />
                       <div

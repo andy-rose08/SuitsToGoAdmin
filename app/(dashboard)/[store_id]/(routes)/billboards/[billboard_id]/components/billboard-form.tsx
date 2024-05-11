@@ -33,7 +33,7 @@ interface BillboardFormProps {
 
 const formSchema = z.object({
   label: z.string().nonempty("Nombre es requerido"),
-  imageUrl: z.string().nonempty("Imagen es requireda"),
+  imageUrl: z.string().nonempty("Imagen es requerida"),
 });
 
 type BillboardFormValues = z.infer<typeof formSchema>;

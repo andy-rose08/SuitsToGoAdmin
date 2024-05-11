@@ -32,7 +32,7 @@ interface SettingsFormProps {
 }
 
 const formSchema = z.object({
-  store_name: z.string().nonempty("Name is required"),
+  store_name: z.string().nonempty("Nombre es requerido"),
   // address: z
   //   .string()
   //   .refine((value) => value.trim() !== "", "Address is required!"),
@@ -59,9 +59,9 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
       setLoading(true);
       await axios.patch(`/api/stores/${params.store_id}`, values);
       router.refresh();
-      toast.success("Store updated successfully!");
+      toast.success("Tienda actualizada exitosamente!");
     } catch (e) {
-      toast.error("Something went wrong, try again!");
+      toast.error("Algo salió mal, intente nuevamente!");
     } finally {
       setLoading(false);
     }
@@ -75,7 +75,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
       router.push("/");
     } catch (error) {
       toast.error(
-        "Something went wrong, make sure you removed all the products and categories first!"
+        "Algo salió mal. ¡Asegúrate de eliminar todos los productos y categorías primero!"
       );
     } finally {
       setLoading(false);
@@ -91,7 +91,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
         loading={loading}
       />
       <div className="flex items-center justify-between">
-        <Heading title="Settings" description="Manage store preferences" />
+        <Heading title="Ajustes" description="Administrar las preferencias de la tienda" />
         <Button
           disabled={loading}
           variant="destructive"
@@ -115,7 +115,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-[#252440] dark:text-white">
-                    Name
+                    Nombre
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -124,7 +124,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
                       placeholder-gray-500
                       "
                       disabled={loading}
-                      placeholder="Store name"
+                      placeholder="Nombre de la tienda"
                       {...field}
                     />
                   </FormControl>
@@ -141,7 +141,7 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
           dark:bg-[#FFD700] dark:hover:bg-[#ADD8E6] dark:border-[#FFFFFF] dark:hover:border-[#FFD700] transition duration-300 ease-in-out dark:hover:text-black"
             type="submit"
           >
-            Save Changes
+            Guardar cambios
           </Button>
         </form>
       </Form>

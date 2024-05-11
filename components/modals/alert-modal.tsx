@@ -39,10 +39,10 @@ export const AlertModal: React.FC<AlertModalProps> = ({
           className="text-black dark:text-[#252440]"
           onClick={onClose}
         >
-          Cancel
+          Cancelar
         </Button>
         <Button disabled={loading} variant="destructive" onClick={onConfirm}>
-          Continue
+          Continuar
         </Button>
       </div>
     </Modal>

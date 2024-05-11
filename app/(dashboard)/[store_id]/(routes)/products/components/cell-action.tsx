@@ -29,7 +29,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
-    toast.success("ID copied to clipboard");
+    toast.success("ID copiada al portapapeles");
   };
 
   const onDelete = async () => {
@@ -37,10 +37,10 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       setLoading(true);
       await axios.delete(`/api/${params.store_id}/products/${data.product_id}`);
       router.refresh();
-      toast.success("Product deleted");
+      toast.success("Producto eliminado");
     } catch (error) {
       toast.error(
-        "Something went wrong, please try again later. If the problem persists, contact support"
+        "Algo salió mal. Inténtalo de nuevo más tarde. Si el problema persiste, contacta con soporte!"
       );
     } finally {
       setLoading(false);
@@ -62,7 +62,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             variant="ghost"
             className="h-8 w-8 p-0 bg-white dark:bg-[#252440]"
           >
-            <span className="sr-only">Open Menu</span>
+            <span className="sr-only">Abrir Menu</span>
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
@@ -70,22 +70,22 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           className="dark:bg-[#252440] dark:text-white"
           align="end"
         >
-          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuLabel>Acciones</DropdownMenuLabel>
           <DropdownMenuItem
             onClick={() =>
               router.push(`/${params.store_id}/products/${data.product_id}`)
             }
           >
             <Edit className="mr-2 h-4 w-4" />
-            Update
+            Actualizar
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => onCopy(data.product_id)}>
             <Copy className="mr-2 h-4 w-4" />
-            Copy ID
+            Copiar ID
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
             <Trash className="mr-2 h-4 w-4" />
-            Delete
+            Eliminar
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

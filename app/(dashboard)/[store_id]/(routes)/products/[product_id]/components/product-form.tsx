@@ -48,16 +48,17 @@ interface ProductFormProps {
 }
 
 const formSchema = z.object({
-  name: z.string().nonempty("Name is required"),
+  name: z.string().nonempty("Nombre es requerido"),
   images: z
     .object({
       url: z.string(),
     })
-    .array(),
+    .array()
+    .nonempty("Imágenes son requeridas"),
   price: z.coerce.number().min(1),
-  category_id: z.string().nonempty("Category is required"),
-  color_id: z.string().nonempty("Color is required"),
-  size_id: z.string().nonempty("Size is required"),
+  category_id: z.string().nonempty("Categoría es requerida"),
+  color_id: z.string().nonempty("Color es requerido"),
+  size_id: z.string().nonempty("Talla es requerida"),
   isFeatured: z.boolean().default(false).optional(),
   isArchived: z.boolean().default(false).optional(),
 });
@@ -75,10 +76,12 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const title = initialData ? "Edit Product" : "Create Product";
-  const description = initialData ? "Edit Product" : "Add a new Product";
-  const toastMessage = initialData ? "Product updated" : "Product created";
-  const action = initialData ? "Save Changes" : "Create";
+  const title = initialData ? "Editar Producto" : "Agregar Producto";
+  const description = initialData
+    ? "Editar Producto"
+    : "Agregar un nuevo Producto";
+  const toastMessage = initialData ? "Producto actualizado" : "Producto creado";
+  const action = initialData ? "Guardar Cambios" : "Crear";
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(formSchema),
@@ -117,7 +120,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       router.push(`/${params.store_id}/products`);
       toast.success(toastMessage);
     } catch (e) {
-      toast.error("Something went wrong, try again!");
+      toast.error("Algo salió mal, inténtalo nuevamente!");
     } finally {
       setLoading(false);
     }
@@ -132,10 +135,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       router.refresh();
       router.push(`/${params.store_id}/products`);
       router.refresh();
-      toast.success("Product deleted");
+      toast.success("Producto eliminado");
     } catch (error) {
       toast.error(
-        "Something went wrong, try again! If the problem persists, contact support."
+        "Algo salió mal, inténtalo de nuevo más tarde. Si el problema persiste, contacta con soporte."
       );
     } finally {
       setLoading(false);
@@ -153,14 +156,16 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       <div className="flex flex-col md:flex-row items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
-          <Button
-            disabled={loading}
-            variant="destructive"
-            size="icon"
-            onClick={() => setOpen(true)}
-          >
-            <Trash className="h-4 w-4" />
-          </Button>
+          <div className="mt-4">
+            <Button
+              disabled={loading}
+              variant="destructive"
+              size="icon"
+              onClick={() => setOpen(true)}
+            >
+              <Trash className="h-4 w-4" />
+            </Button>
+          </div>
         )}
       </div>
       <Separator />
@@ -176,7 +181,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-[#252440] dark:text-white">
-                  Images
+                  Imágenes
                 </FormLabel>
                 <FormControl>
                   <ImageUpload
@@ -203,7 +208,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-[#252440] dark:text-white">
-                    Name
+                    Nombre
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -212,7 +217,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       placeholder-gray-500
                       "
                       disabled={loading}
-                      placeholder="Product Name"
+                      placeholder="Nombre del Producto"
                       {...field}
                     />
                   </FormControl>
@@ -226,7 +231,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-[#252440] dark:text-white">
-                    Price
+                    Precio
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -250,7 +255,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-[#252440] dark:text-white">
-                    Category
+                    Categoría
                   </FormLabel>
                   <Select
                     disabled={loading}
@@ -265,7 +270,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       >
                         <SelectValue
                           defaultValue={field.value}
-                          placeholder="Select a Category"
+                          placeholder="Selecciona una Categoría"
                         />
                       </SelectTrigger>
                     </FormControl>
@@ -294,7 +299,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-[#252440] dark:text-white">
-                    Size
+                    Talla
                   </FormLabel>
                   <Select
                     disabled={loading}
@@ -309,7 +314,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       >
                         <SelectValue
                           defaultValue={field.value}
-                          placeholder="Select a Size"
+                          placeholder="Selecciona una Categoría"
                         />
                       </SelectTrigger>
                     </FormControl>
@@ -353,7 +358,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       >
                         <SelectValue
                           defaultValue={field.value}
-                          placeholder="Select a Color"
+                          placeholder="Selecciona un Color"
                         />
                       </SelectTrigger>
                     </FormControl>
@@ -394,10 +399,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   </FormControl>
                   <div className="space-y-1 leading-none">
                     <FormLabel className="text-[#252440] dark:text-white">
-                      Featured
+                      Destacado
                     </FormLabel>
                     <FormDescription>
-                      This product will appear on the home page
+                      Este producto aparecerá en la página de inicio
                     </FormDescription>
                   </div>
                 </FormItem>
@@ -421,10 +426,10 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                   </FormControl>
                   <div className="space-y-1 leading-none">
                     <FormLabel className="text-[#252440] dark:text-white">
-                      Archived
+                      Archivado
                     </FormLabel>
                     <FormDescription>
-                      This product will not appear anywhere in the store
+                      Este producto no aparecerá en ninguna parte de la tienda
                     </FormDescription>
                   </div>
                 </FormItem>
