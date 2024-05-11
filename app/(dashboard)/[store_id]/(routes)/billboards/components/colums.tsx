@@ -12,11 +12,11 @@ export type BillBoardColumn = {
 export const columns: ColumnDef<BillBoardColumn>[] = [
   {
     accessorKey: "label",
-    header: "Label",
+    header: "Etiqueta",
   },
   {
     accessorKey: "createdAt",
-    header: "Date",
+    header: "Fecha",
   },
   {
     id: "actions",

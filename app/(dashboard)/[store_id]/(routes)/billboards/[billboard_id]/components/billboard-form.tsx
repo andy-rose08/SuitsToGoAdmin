@@ -32,8 +32,8 @@ interface BillboardFormProps {
 }
 
 const formSchema = z.object({
-  label: z.string().nonempty("Name is required"),
-  imageUrl: z.string().nonempty("Image URL is required"),
+  label: z.string().nonempty("Nombre es requerido"),
+  imageUrl: z.string().nonempty("Imagen es requireda"),
 });
 
 type BillboardFormValues = z.infer<typeof formSchema>;
@@ -46,10 +46,14 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const title = initialData ? "Edit Billboard" : "Create Billboard";
-  const description = initialData ? "Edit Billboard" : "Add a new Billboard";
-  const toastMessage = initialData ? "Billboard updated" : "Billboard created";
-  const action = initialData ? "Save Changes" : "Create";
+  const title = initialData ? "Editar Cartelera" : "Agregar Cartelera";
+  const description = initialData
+    ? "Editar Cartelera"
+    : "Agregar una nueva Cartelera";
+  const toastMessage = initialData
+    ? "Cartelera actualizada"
+    : "Cartelera creada";
+  const action = initialData ? "Guardar Cambios" : "Agregar";
 
   const form = useForm<BillboardFormValues>({
     resolver: zodResolver(formSchema),
@@ -77,7 +81,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
       router.push(`/${params.store_id}/billboards`);
       toast.success(toastMessage);
     } catch (e) {
-      toast.error("Something went wrong, try again!");
+      toast.error("Algo salió mal, intente nuevamente!");
     } finally {
       setLoading(false);
     }
@@ -92,10 +96,10 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
       router.refresh();
       router.push(`/${params.store_id}/billboards`);
       router.refresh();
-      toast.success("Billboard deleted");
+      toast.success("Cartelera eliminada");
     } catch (error) {
       toast.error(
-        "Something went wrong, make sure you removed all categories using this billboard first!"
+        "Algo salió mal. Asegúrate de eliminar primero todas las categorías que utilizan esta cartelera!"
       );
     } finally {
       setLoading(false);
@@ -110,17 +114,23 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
         onConfirm={onDelete}
         loading={loading}
       />
-      <div className="flex flex-col md:flex-row items-center justify-between">
-        <Heading title={title} description={description} />
+      <div className="flex flex-col md:flex-row items-center">
+        <div className="flex-grow mb-4 md:mb-0 md:mr-auto md:ml-0">
+          {" "}
+          {/* Cambio en las clases */}
+          <Heading title={title} description={description} />
+        </div>
         {initialData && (
-          <Button
-            disabled={loading}
-            variant="destructive"
-            size="icon"
-            onClick={() => setOpen(true)}
-          >
-            <Trash className="h-4 w-4" />
-          </Button>
+          <div className="md:ml-4">
+            <Button
+              disabled={loading}
+              variant="destructive"
+              size="icon"
+              onClick={() => setOpen(true)}
+            >
+              <Trash className="h-4 w-4" />
+            </Button>
+          </div>
         )}
       </div>
       <Separator />
@@ -136,7 +146,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-[#252440] dark:text-white">
-                  Background image
+                  Imagen de fondo
                 </FormLabel>
                 <FormControl>
                   <ImageUpload
@@ -157,7 +167,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-[#252440] dark:text-white">
-                    Label
+                    Nombre
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -166,7 +176,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
                       placeholder-gray-500
                       "
                       disabled={loading}
-                      placeholder="Billboard label"
+                      placeholder="Nombre de la cartelera"
                       {...field}
                     />
                   </FormControl>

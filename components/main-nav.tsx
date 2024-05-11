@@ -15,42 +15,42 @@ export function MainNav({
   const routes = [
     {
       href: `/${params.store_id}`,
-      label: "Overview",
+      label: "Descripción general",
       active: pathname === `/${params.store_id}`,
     },
     {
       href: `/${params.store_id}/billboards`,
-      label: "Billboards",
+      label: "Carteleras",
       active: pathname === `/${params.store_id}/billboards`,
     },
     {
       href: `/${params.store_id}/categories`,
-      label: "Categories",
+      label: "Categorías",
       active: pathname === `/${params.store_id}/categories`,
     },
     {
       href: `/${params.store_id}/sizes`,
-      label: "Sizes",
+      label: "Tallas",
       active: pathname === `/${params.store_id}/sizes`,
     },
     {
       href: `/${params.store_id}/colors`,
-      label: "Colors",
+      label: "Colores",
       active: pathname === `/${params.store_id}/colors`,
     },
     {
       href: `/${params.store_id}/products`,
-      label: "Products",
+      label: "Productos",
       active: pathname === `/${params.store_id}/products`,
     },
     {
       href: `/${params.store_id}/orders`,
-      label: "Orders",
+      label: "Pedidos",
       active: pathname === `/${params.store_id}/orders`,
     },
     {
       href: `/${params.store_id}/settings`,
-      label: "Settings",
+      label: "Ajustes",
       active: pathname === `/${params.store_id}/settings`,
     },
   ];

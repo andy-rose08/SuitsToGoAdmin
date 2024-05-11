@@ -44,7 +44,7 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({ params }) => {
           <Card className="dark:bg-[#0D1A25] dark:text-white">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-xs md:text-sm font-medium">
-                Total Revenue
+                Ingresos Totales
               </CardTitle>
               <DollarSign className="h-3 md:h-4 w-3 md:w-4 text-muted-foreground" />
             </CardHeader>
@@ -57,7 +57,7 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({ params }) => {
           <Card className="dark:bg-[#0D1A25] dark:text-white">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-xs md:text-sm font-medium">
-                Sales
+                Ventas
               </CardTitle>
               <CreditCard className="h-3 md:h-4 w-3 md:w-4 text-muted-foreground" />
             </CardHeader>
@@ -70,7 +70,7 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({ params }) => {
           <Card className="dark:bg-[#0D1A25] dark:text-white">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-xs md:text-sm font-medium">
-                Products In Stock
+                Productos en Stock
               </CardTitle>
               <Package className="h-3 md:h-4 w-3 md:w-4 text-muted-foreground" />
             </CardHeader>
@@ -81,7 +81,7 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({ params }) => {
         </div>
         <Card className="col-span-4 dark:bg-[#0D1A25] dark:text-white">
           <CardHeader>
-            <CardTitle>Overview</CardTitle>
+            <CardTitle>Descripción general</CardTitle>
           </CardHeader>
           <CardContent className="pl-2">
             <Overview data={graphRevenue} />
