@@ -39,8 +39,8 @@ interface CategoryFormProps {
 }
 
 const formSchema = z.object({
-  name: z.string().nonempty("Name is required"),
-  billboard_id: z.string().nonempty("Billboard is required"),
+  name: z.string().nonempty("Nombre es requerido"),
+  billboard_id: z.string().nonempty("Cartelera es requerida"),
 });
 
 type CategoryFormValues = z.infer<typeof formSchema>;
@@ -54,10 +54,14 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const title = initialData ? "Edit Category" : "Create Category";
-  const description = initialData ? "Edit Category" : "Add a new Category";
-  const toastMessage = initialData ? "Category updated" : "Category created";
-  const action = initialData ? "Save Changes" : "Create";
+  const title = initialData ? "Editar Categoría" : "Agregar Categoría";
+  const description = initialData
+    ? "Editar Categoría"
+    : "Agregar una nueva Categoría";
+  const toastMessage = initialData
+    ? "Categoría actualizada"
+    : "Categoría agregada";
+  const action = initialData ? "Guardar Cambios" : "Agregar";
 
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(formSchema),
@@ -100,10 +104,10 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       router.refresh();
       router.push(`/${params.store_id}/categories`);
       router.refresh();
-      toast.success("Category deleted");
+      toast.success("Categoría eliminada");
     } catch (error) {
       toast.error(
-        "Something went wrong, make sure you removed all products using this category first!"
+        "Algo salió mal. Asegúrate de eliminar primero todos los productos que usan esta categoría!"
       );
     } finally {
       setLoading(false);
@@ -122,14 +126,16 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       <div className="flex flex-col md:flex-row items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
-          <Button
-            disabled={loading}
-            variant="destructive"
-            size="icon"
-            onClick={() => setOpen(true)}
-          >
-            <Trash className="h-4 w-4" />
-          </Button>
+          <div className="mt-4">
+            <Button
+              disabled={loading}
+              variant="destructive"
+              size="icon"
+              onClick={() => setOpen(true)}
+            >
+              <Trash className="h-4 w-4" />
+            </Button>
+          </div>
         )}
       </div>
       <Separator />
@@ -146,7 +152,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-[#252440] dark:text-white">
-                    Name
+                    Nombre
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -155,7 +161,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                       placeholder-gray-500
                       "
                       disabled={loading}
-                      placeholder="Category Name"
+                      placeholder="Nombre de la categoría"
                       {...field}
                     />
                   </FormControl>
@@ -169,7 +175,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-[#252440] dark:text-white">
-                    Billboard
+                    Cartelera
                   </FormLabel>
                   <Select
                     disabled={loading}
@@ -184,7 +190,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
                       >
                         <SelectValue
                           defaultValue={field.value}
-                          placeholder="Select a Billboard"
+                          placeholder="Seleccione una Cartelera"
                         />
                       </SelectTrigger>
                     </FormControl>
