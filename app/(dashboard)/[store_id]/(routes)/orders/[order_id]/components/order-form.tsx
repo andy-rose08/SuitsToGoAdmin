@@ -25,16 +25,15 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { AlertModal } from "@/components/modals/alert-modal";
-import { OrderItemColumn, columns } from "./colums";
-import { Order, OrderState } from "@prisma/client";
+import { columns } from "./colums";
 import { Trash } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 
 interface OrderFormProps {
-  data: Order;
-  states: OrderState[];
+  data: any;
+  states: any[];
 }
 
 const formSchema = z.object({
@@ -58,14 +57,19 @@ export const OrderForm: React.FC<OrderFormProps> = ({ data, states }) => {
     defaultValues: data
   });
 
-  const formattedProducts: OrderItemColumn[] = data.orderItems.map((item) => ({
-    product: `Nombre: ${item.product.name} Color: ${item.product.color.name} Talla: ${item.product.size.name}`,
-    unit_price: item.product.price,
-    quantity: item.quantity,
-    subtotal: item.quantity * Number(item.product.price)
-  }));
+  const formattedProducts = () => {
+    if(data){
+        data.orderItems.map((item : any) => ({
+        product: `Nombre: ${item.product.name} Color: ${item.product.color.name} Talla: ${item.product.size.name}`,
+        unit_price: item.product.price,
+        quantity: item.quantity,
+        subtotal: item.quantity * Number(item.product.price)
+      }));
+    }
+    return [];
+  }
 
-  const totalPrice = data.orderItems.reduce((total, item) => {
+  const totalPrice = data?.orderItems.reduce((total: number, item: any) => {
     return total + (Number(item.product.price) * item.quantity);
   }, 0);
 
@@ -114,7 +118,7 @@ export const OrderForm: React.FC<OrderFormProps> = ({ data, states }) => {
         loading={loading}
       />
       <div className="flex flex-col md:flex-row items-center justify-between">
-        <Heading title={"Editar pedido"}/>
+        <Heading title={"Editar pedido"} description=""/>
         {data && (
           <div className="mt-4">
             <Button
@@ -130,13 +134,13 @@ export const OrderForm: React.FC<OrderFormProps> = ({ data, states }) => {
       </div>
       <Separator />
       <div>
-        <p>{ "ID pedido: " + data.order_id}</p>
-        <p>{ "ID usuario: " + data.userId}</p>
+        <p>{ "ID pedido: " + data?.order_id}</p>
+        <p>{ "ID usuario: " + data?.userId}</p>
         <p>{ "Total: " +  totalPrice}</p>
       </div>
       <div>
-          {data.orderItems.length > 0 && (
-            <DataTable columns={columns} data={formattedProducts} />
+          { data !== undefined && data.orderItems.length > 0 && (
+            <DataTable searchKey="product" columns={columns} data={formattedProducts()} />
           )}
       </div>
       <Form {...form}>

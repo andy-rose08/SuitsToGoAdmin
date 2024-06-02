@@ -7,11 +7,13 @@ const OrderPage = async ({ params }: { params: { order_id: string } }) => {
       order_state_id: "asc",
     },
   });
-  const order = await prismadb.order.findUnique({
+
+  const order = await prismadb.order.findFirst({
     where: {
       order_id: params.order_id,
     },
     include: {
+      orderState: true,
       orderItems: {
         include: {
           product: {
@@ -29,7 +31,7 @@ const OrderPage = async ({ params }: { params: { order_id: string } }) => {
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <OrderForm data={order!} states={orderStates}/>
+        <OrderForm data={order} states={orderStates}/>
       </div>
     </div>
   );
