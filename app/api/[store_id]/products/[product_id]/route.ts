@@ -44,6 +44,7 @@ export async function PATCH( //PATCH es para actualizar el product
     const {
       name,
       price,
+      quantity,
       category_id,
       color_id,
       size_id,
@@ -62,6 +63,10 @@ export async function PATCH( //PATCH es para actualizar el product
 
     if (!price) {
       return new NextResponse("Missing required price", { status: 400 });
+    }
+
+    if (!quantity) {
+      return new NextResponse("Missing required quantity", { status: 400 });
     }
 
     if (!category_id) {
@@ -102,6 +107,7 @@ export async function PATCH( //PATCH es para actualizar el product
       data: {
         name,
         price,
+        quantity,
         category_id,
         color_id,
         size_id,

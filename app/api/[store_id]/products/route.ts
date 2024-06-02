@@ -119,6 +119,7 @@ export async function GET(
         size_id,
         isFeatured: isFeatured ? true : undefined,
         isArchived: false,
+        quantity: { not: 0 }
       },
       include: {
         images: true,

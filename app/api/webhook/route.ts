@@ -6,7 +6,7 @@ import { stripe } from "@/lib/stripe";
 import prismadb from "@/lib/prismadb";
 
 export async function POST(req: Request) {
-  const body = await req.text(); //porque es webhook
+  const body = await req.text(); 
 
   const signature = headers().get("Stripe-Signature") as string;
 
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
 
   const session = event.data.object as Stripe.Checkout.Session;
   const address = session?.customer_details?.address;
-
+  
   const addressComponents = [
     address?.line1,
     address?.line2,
@@ -37,6 +37,7 @@ export async function POST(req: Request) {
   const addressString = addressComponents.filter((c) => c !== null).join(", ");
 
   if (event.type === "checkout.session.completed") {
+    console.log("CHECKOUT COMPLETED")
     const order = await prismadb.order.update({
       where: {
         order_id: session?.metadata?.order_id,
@@ -47,24 +48,24 @@ export async function POST(req: Request) {
         phone: session?.customer_details?.phone || "",
       },
       include: {
-        orderItems: true,
-      },
-    });
-
-    const product_ids = order.orderItems.map(
-      (orderItem) => orderItem.product_id
-    );
-
-    await prismadb.product.updateMany({
-      where: {
-        product_id: {
-          in: [...product_ids],
+        orderItems: {
+          include: {
+            product: true
+          }
         },
       },
-      data: {
-        isArchived: true,
-      },
     });
+    for(const item of order.orderItems){
+      console.log("Product ID UPDATED: " + item.product.product_id)
+      await prismadb.product.update({
+        where: {
+          product_id: item.product.product_id,
+        },
+        data: {
+          quantity: item.product.quantity - item.quantity,
+        },
+      });
+    }
   }
 
   return new NextResponse(null, { status: 200 });

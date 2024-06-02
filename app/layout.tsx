@@ -30,7 +30,7 @@ export default function RootLayout({
             <ToasterProvider />
             <ModalProvider />
             {children}
-          </ThemeProvider>
+          </ThemeProvider>  
         </body>
       </html>
     </ClerkProvider>

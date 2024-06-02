@@ -39,7 +39,6 @@ model District {
   canton      Canton   @relation(fields: [canton_id], references: [canton_id])
   locations   Location[] // Define the relationship with locations
   @@index([canton_id])
-
 }
 
 
@@ -53,14 +52,9 @@ model Location {
   canton      Canton   @relation(fields: [canton_id], references: [canton_id])
   district    District @relation(fields: [district_id], references: [district_id])
   stores      Store[]  // Define the relationship with stores
-
   @@index([province_id])
   @@index([canton_id])
   @@index([district_id])
-
-
-
-  
 }
 
 
@@ -77,7 +71,6 @@ model Store {
   color      Color[] @relation("StoreToColor") // Define the relationship with colors
   products   Product[] @relation("StoreToProduct") // Define the relationship with products
   orders     Order[] @relation("StoreToOrder") // Define the relationship with orders
-  
 }
 
 
@@ -91,7 +84,6 @@ model Billboard{
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   @@index([store_id])
-
 }
 
 model Category{
@@ -103,9 +95,7 @@ model Category{
   billboard         Billboard @relation(fields: [billboard_id], references: [id])
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
-
   products         Product[] @relation("CategoryToProduct")
-
   @@index([billboard_id])
   @@index([store_id])
 }
@@ -119,7 +109,6 @@ model Size{
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   @@index([store_id])
-
   products       Product[] 
 }
 
@@ -132,7 +121,6 @@ model Color{
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   @@index([store_id])
-
   products       Product[]
 }
 
@@ -151,12 +139,10 @@ model Product{
   color_id          String
   color             Color    @relation(fields: [color_id], references: [color_id])
   images            Image[]
-
+  quantity          Int @default(0)
   orderItems        OrderItem[]
-
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
-
   @@index([store_id])
   @@index([category_id])
   @@index([size_id])
@@ -170,15 +156,25 @@ model Image{
   url           String
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-
   @@index([product_id])
+}
+
+model OrderState{
+  order_state_id       String    @id @default(uuid())
+  name    String
+  orders  Order[]
 }
 
 
 model Order{
-  order_id          String    @id @default(uuid())
+  order_id    String   @id @default(uuid())
+  userId      String
   store_id    String
-  store       Store     @relation("StoreToOrder",fields: [store_id], references: [store_id])
+  store       Store    @relation("StoreToOrder",fields: [store_id], references: [store_id])
+  
+  order_state_id  String
+  orderState  OrderState  @relation(fields: [order_state_id], references: [order_state_id])
+  
   orderItems  OrderItem[]
   isPaid      Boolean  @default(false)
   phone       String   @default("")
@@ -187,16 +183,17 @@ model Order{
   updatedAt   DateTime  @updatedAt
 
   @@index([store_id])
+  @@index([order_state_id])
 }
 
 
 model OrderItem{ //many to many, intermediate table
-  id          String    @id @default(uuid())
+  order_item_id          String    @id @default(uuid())
   order_id    String
   order       Order     @relation(fields: [order_id], references: [order_id])
   product_id  String
   product     Product   @relation(fields: [product_id], references: [product_id])
-
+  quantity    Int @default(1)
   @@index([order_id])
   @@index([product_id])
 }

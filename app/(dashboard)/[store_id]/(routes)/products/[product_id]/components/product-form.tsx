@@ -56,6 +56,7 @@ const formSchema = z.object({
     .array()
     .nonempty("Imágenes son requeridas"),
   price: z.coerce.number().min(1),
+  quantity: z.coerce.number().min(1),
   category_id: z.string().nonempty("Categoría es requerida"),
   color_id: z.string().nonempty("Color es requerido"),
   size_id: z.string().nonempty("Talla es requerida"),
@@ -94,6 +95,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
           name: "",
           images: [],
           price: 0,
+          quantity: 0,
           category_id: "",
           color_id: "",
           size_id: "",
@@ -107,7 +109,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       setLoading(true);
       if (initialData) {
         router.refresh();
-
+        console.log(values)
         await axios.patch(
           `/api/${params.store_id}/products/${params.product_id}`, //api/[store_id]/products/[product_id]
           values
@@ -377,6 +379,29 @@ export const ProductForm: React.FC<ProductFormProps> = ({
                       ))}
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="quantity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-[#252440] dark:text-white">
+                    Cantidad
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      className="dark:bg-[#0D1A26] dark:border-white dark:text-white dark:placeholder-gray-500
+                      bg-white border-[#252440] text-[#252440]
+                      placeholder-gray-500
+                      "
+                      disabled={loading}
+                      placeholder="Cantidad en Stock"
+                      {...field}
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
